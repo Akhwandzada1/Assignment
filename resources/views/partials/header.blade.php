@@ -20,7 +20,7 @@
                                                 </div>
                                                 <div class="user-info d-none d-md-block">
                                                     <div class="user-status">Administrator</div>
-                                                    <div class="user-name dropdown-indicator">Abu Bin Ishityak</div>
+                                                    <div class="user-name dropdown-indicator">{{ Auth::user()->name }}</div>
                                                 </div>
                                             </div>
                                         </a>
@@ -31,8 +31,8 @@
                                                         <span>AB</span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text">Abu Bin Ishtiyak</span>
-                                                        <span class="sub-text">info@softnio.com</span>
+                                                        <span class="lead-text">{{ Auth::user()->name }}</span>
+                                                        <span class="sub-text">{{ Auth::user()->email }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -46,7 +46,16 @@
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                <form id="logoutForm" method="POST" action="{{ route('logout') }}">
+                                                    @csrf
+                                                    <li>
+                                                        <a id="submitFormLink" onClick="$('#logoutForm').submit()">
+                                                            <em class="icon ni ni-signout">
+                                                            </em>
+                                                            <span>Sign out</span>
+                                                        </a>
+                                                    </li>
+                                                </form>
                                                 </ul>
                                             </div>
                                         </div>

@@ -10,7 +10,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
     <!-- Page Title  -->
-    <title>Blank - Layout | DashLite Admin Template</title>
+    <title>Dashboard</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ mix('css/theme.css') }}">
     <link id="skin-default" rel="stylesheet" href="{{ mix('css/theme.css') }}">
@@ -33,7 +33,7 @@
 
 
     <script src="{{ mix('js/theme.js') }}"></script>
-    <script src="{{ mix('js/theme.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
 </body>
 
 </html>
