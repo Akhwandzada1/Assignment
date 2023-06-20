@@ -46,7 +46,16 @@
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="{{ route('logout') }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                <form id="logoutForm" method="POST" action="{{ route('logout') }}">
+                                                    @csrf
+                                                    <li>
+                                                        <a id="submitFormLink" onClick="$('#logoutForm').submit()">
+                                                            <em class="icon ni ni-signout">
+                                                            </em>
+                                                            <span>Sign out</span>
+                                                        </a>
+                                                    </li>
+                                                </form>
                                                 </ul>
                                             </div>
                                         </div>

@@ -16,18 +16,18 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $permissions=[
-            'create-employee',
-            'read-employee',
-            'update-employee',
-            'delete-employee',
-            'create-company',
-            'read-company',
-            'update-company',
-            'delete-company',
+            ['group' => 'employees', 'name' => 'create_employee', 'title' => 'Create Employees'],
+            ['group' => 'employees','name' => 'read_employee', 'title' => 'Read Employees'],
+            ['group' => 'employees', 'name' => 'update_employee', 'title' => 'Update Employees'],
+            ['group' => 'employees', 'name' => 'delete_employees', 'title' => 'Delete Employees'],
+            ['group' => 'companies', 'name' => 'create_company', 'title' => 'Create Companies'],
+            ['group' => 'companies', 'name' => 'read_company', 'title' => 'Read Companies'],
+            ['group' => 'companies', 'name' => 'update_company', 'title' => 'Update Companies'],
+            ['group' => 'companies', 'name' => 'delete_company', 'title' => 'Delete Companies'],
         ];
 
         foreach($permissions as $permission){
-            Permission::create(['name' => $permission]);
+            Permission::create($permission);
         }
     }
 }
