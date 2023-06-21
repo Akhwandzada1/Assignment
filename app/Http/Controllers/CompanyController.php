@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddCompanyRequest;
+use App\Models\Company;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Storage;
+
 
 class CompanyController extends Controller
 {
@@ -13,7 +18,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        return view('companies.index');
     }
 
     /**
@@ -23,7 +28,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -32,9 +37,21 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddCompanyRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $image = $request->file('logo');
+        $imageName = time(). '-' .$image->getClientOriginalExtension();
+        Storage::disk('public')->put($imageName, $image);
+        $company = new Company;
+        $company->email = $validated['email'];
+        $company->name = $validated['name'];
+        $company->website = $validated['website'];
+        $company->logo = "public/". $imageName;
+        $company->save();
+
+        return response()->json(['message' => 'Added Successfully']);
+
     }
 
     /**
@@ -45,7 +62,7 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -56,7 +73,7 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -68,7 +85,7 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
@@ -79,6 +96,12 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+    }
+
+    public function datatable(){
+        $companies = Company::latest();
+
+        return DataTables::of($companies)->make(true);
     }
 }

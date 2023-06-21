@@ -34,6 +34,9 @@ Route::middleware('auth')->group(function () {
 Route::resource('companies', CompanyController::class);
 Route::resource('employees', EmployeeController::class);
 Route::resource('projects', ProjectController::class);
+
+Route::get('/companies-datatable', [CompanyController::class, 'datatable'])->name('companies.datatable');
+
 // Route::get('/testing', function (){
 //     return view('empty');
 // });
