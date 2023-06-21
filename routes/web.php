@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +32,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('companies', CompanyController::class);
-
+Route::resource('employees', EmployeeController::class);
+Route::resource('projects', ProjectController::class);
 // Route::get('/testing', function (){
 //     return view('empty');
 // });
