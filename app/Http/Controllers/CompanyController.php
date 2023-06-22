@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddCompanyRequest;
+use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -28,6 +28,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
+        return view('companies.form');
 
     }
 
@@ -37,7 +38,7 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddCompanyRequest $request)
+    public function store(CompanyRequest $request)
     {
         $validated = $request->validated();
         $image = $request->file('logo');
@@ -73,7 +74,9 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
+        $company = Company::find($id);
 
+        return view('companies.form', compact('company'));
     }
 
     /**
@@ -83,8 +86,23 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CompanyRequest $request, $id)
     {
+        $company = Company::find($id);
+
+        $validated = $request->validated();
+        $company->email = $validated['email'];
+        $company->name = $validated['name'];
+        $company->website = $validated['website'];
+        if($request->hasFile('logo')){
+            $image = $request->file('logo');
+            $imageName = time(). '-'. $image->getClientOriginalExtension();
+            Storage::disk('public')->put($imageName, $image);
+            $company->logo = "public/". $imageName;
+        }
+        $company->save();
+
+        return response()->json(['message' => 'Updated Successfully']);
 
     }
 
@@ -96,12 +114,23 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
+        $company = Company::find($id);
+        $company->delete();
 
+        return response()->json(['message' => 'Company Deleted Successfully']);
     }
 
     public function datatable(){
         $companies = Company::latest();
 
-        return DataTables::of($companies)->make(true);
+        return DataTables::of($companies)
+        ->addColumn('action', function ($row){
+            $btn = '<button class="edit btn btn-primary btn-sm company-edit" id='.$row->id.' data-id=' .$row->id. ' edit-url=' .route('companies.edit', $row->id).'>Edit</button>&nbsp&nbsp';
+            $btn = $btn.'<button class="edit btn btn-danger btn-sm eg-swal-av3" id='.$row->id.' data-id='.$row->id.' delete-url=' .route('companies.destroy', $row->id ).'>Delete</button>';
+
+            return $btn;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
     }
 }
