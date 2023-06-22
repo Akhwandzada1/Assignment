@@ -36,9 +36,9 @@
         <table class="datatable-init nowrap table" id="company_table">
             <thead>
                 <tr>
+                    <th>Logo</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Logo</th>
                     <th>Website</th>
                     <th>Actions</th>
                 </tr>
@@ -55,17 +55,18 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('companies.datatable') }}",
-            "columns": [{
+            "columns": [
+                {
+                    name: 'logo',
+                    data: 'logo'
+                },
+                {
                     name: 'name',
                     data: 'name'
                 },
                 {
                     name: 'email',
                     data: 'email'
-                },
-                {
-                    name: 'logo',
-                    data: 'logo'
                 },
                 {
                     name: 'website',

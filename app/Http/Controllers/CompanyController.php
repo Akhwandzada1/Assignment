@@ -42,14 +42,10 @@ class CompanyController extends Controller
     {
         $validated = $request->validated();
         $image = $request->file('logo');
-        $imageName = time(). '-' .$image->getClientOriginalExtension();
-        Storage::disk('public')->put($imageName, $image);
-        $company = new Company;
-        $company->email = $validated['email'];
-        $company->name = $validated['name'];
-        $company->website = $validated['website'];
-        $company->logo = "public/". $imageName;
-        $company->save();
+        $imageName = time(). '.' .$image->getClientOriginalExtension();
+        Storage::disk('companies')->put('public', $image);
+        $validated['logo'] = 'companies/' .$imageName;
+        Company::create($validated);
 
         return response()->json(['message' => 'Added Successfully']);
 
@@ -88,7 +84,7 @@ class CompanyController extends Controller
      */
     public function update(CompanyRequest $request, $id)
     {
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
 
         $validated = $request->validated();
         $company->email = $validated['email'];
@@ -96,7 +92,7 @@ class CompanyController extends Controller
         $company->website = $validated['website'];
         if($request->hasFile('logo')){
             $image = $request->file('logo');
-            $imageName = time(). '-'. $image->getClientOriginalExtension();
+            $imageName = time(). '.'. $image->getClientOriginalExtension();
             Storage::disk('public')->put($imageName, $image);
             $company->logo = "public/". $imageName;
         }
@@ -114,7 +110,7 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
         $company->delete();
 
         return response()->json(['message' => 'Company Deleted Successfully']);
@@ -130,7 +126,10 @@ class CompanyController extends Controller
 
             return $btn;
         })
-        ->rawColumns(['action'])
+        ->editColumn('logo', function ($row){
+            return '<img src="/storage/'.$row->logo.' ">';
+        })
+        ->rawColumns(['action', 'logo'])
         ->make(true);
     }
 }
