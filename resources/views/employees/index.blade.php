@@ -25,7 +25,9 @@
                                         <span>Add Company</span>
                                     </a> -->
                         <li class="preview-item">
+                            @can('create_employee')
                             <button type="button" class="btn btn-primary" id="add_employee">Add Employee</button>
+                            @endcan
                         </li>
                         </li>
 
@@ -90,7 +92,7 @@ $(document).ready(function() {
                 }
             ]
         });
-        $('#employee_table_filter').css('padding-left', '63%');
+
         // To Open Create Form
         $('#add_employee').on('click', function (){
             axios.get("{{ route('employees.create') }}").then(function (response){
@@ -127,11 +129,10 @@ $(document).ready(function() {
                         NioApp.Toast(response.data.message, 'success');
                         $('#employee_table').DataTable().ajax.reload();
                     }).catch(function (error){
-                        NioApp.Toast('Unable to delete company', 'error');
+                        NioApp.Toast(error.response.data.message, 'error');
                     })
                 }
             });
-            e.preventDefault();
         });
         //Edit & Add Employee functionality
         $(document).on('submit', '#employee_form', function(e) {

@@ -25,7 +25,9 @@
                                         <span>Add Company</span>
                                     </a> -->
                         <li class="preview-item">
+                            @can('create_company')
                             <button type="button" class="btn btn-primary" id="add_company">Add Company</button>
+                            @endcan
                         </li>
                         </li>
 
@@ -88,7 +90,7 @@
         });
     });
     $(document).ready(function() {
-        $('#company_table_filter').css('padding-left', '63%');
+
         $('#add_company').on('click', function() {
             axios.get("{{ route('companies.create') }}").then(function(response) {
                 //$('#company_form_div').html(response.data)
@@ -143,7 +145,7 @@
                         NioApp.Toast(response.data.message, 'success');
                         $('#company_table').DataTable().ajax.reload();
                     }).catch(function (error){
-                        NioApp.Toast('Unable to delete company', 'error');
+                        NioApp.Toast(error.response.data.message, 'error');
                     })
                 }
             });

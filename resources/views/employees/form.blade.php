@@ -6,36 +6,32 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    @isset($employee)
-                    <h5 class="modal-title">Edit Employee</h5>
-                    @else
-                    <h5 class="modal-title">Add Employee</h5>
-                    @endisset
+                    <h5 class="modal-title">@isset($employee) Edit @else Add @endisset Employee</h5>
                     <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                         <em class="icon ni ni-cross"></em>
                     </a>
                 </div>
                 <div class="modal-body" id="employee_form_div">
             <div class="form-group">
-            <label class="form-label required" for="full-name">First Name</label>
+            <label class="form-label required" for="first_name">First Name</label>
             <div class="form-control-wrap">
                 <input type="text" class="form-control" value="@isset($employee){{ $employee->first_name }}@endisset" name="first_name" required>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-label required" for="email-address">Last Name</label>
+            <label class="form-label required" for="last_name">Last Name</label>
             <div class="form-control-wrap">
                 <input type="text" class="form-control" id="last_name" value="@isset($employee){{ $employee->last_name }}@endisset" name="last_name" required>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-label required" for="phone-no">Email</label>
+            <label class="form-label required" for="email">Email</label>
             <div class="form-control-wrap">
                 <input type="text" class="form-control" id="email" value="@isset($employee){{ $employee->email }}@endisset" name="email" required>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-label required" for="phone-no">Phone Number</label>
+            <label class="form-label required" for="phone">Phone Number</label>
             <div class="form-control-wrap">
                 <input type="text" class="form-control" id="phone" value="@isset($employee){{ $employee->phone }}@endisset" name="phone" required>
             </div>

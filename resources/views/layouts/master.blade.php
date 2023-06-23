@@ -31,6 +31,9 @@
         border-radius: 4px;
         margin-top: 1rem !important;
         }
+        #company_table_filter{
+            float: right;
+        }
 
 </style>
     </style>

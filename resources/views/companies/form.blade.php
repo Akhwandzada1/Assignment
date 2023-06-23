@@ -6,30 +6,26 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    @isset($company)
-                    <h5 class="modal-title">Edit Company</h5>
-                    @else
-                    <h5 class="modal-title">Add Company</h5>
-                    @endisset
+                    <h5 class="modal-title">@isset($company) Edit @else Add @endisset Company</h5>
                     <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                         <em class="icon ni ni-cross"></em>
                     </a>
                 </div>
                 <div class="modal-body" id="company_form_div">
             <div class="form-group">
-            <label class="form-label required" for="full-name">Name</label>
+            <label class="form-label required" for="name">Name</label>
             <div class="form-control-wrap">
                 <input type="text" class="form-control" value="@isset($company){{ $company->name }}@endisset" name="name" required>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-label required" for="email-address">Email address </label>
+            <label class="form-label required" for="email">Email address </label>
             <div class="form-control-wrap">
                 <input type="email" class="form-control" id="email" value="@isset($company){{ $company->email }}@endisset" name="email" required>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-label required" for="phone-no">Website</label>
+            <label class="form-label required" for="website">Website</label>
             <div class="form-control-wrap">
                 <input type="text" class="form-control" id="website" value="@isset($company){{ $company->website }}@endisset" name="website" id="phone-no" required>
             </div>
