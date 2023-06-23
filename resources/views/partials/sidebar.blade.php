@@ -20,7 +20,7 @@
                                 </li><!-- .nk-menu-item -->
                                 @can('read_employee')
                                 <li class="nk-menu-item">
-                                    <a href="html/crm/index.html" class="nk-menu-link">
+                                    <a href="{{ route('employees.index') }}" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-list"></em></span>
                                         <span class="nk-menu-text">Employees</span>
                                     </a>

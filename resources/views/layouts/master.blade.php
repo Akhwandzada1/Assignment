@@ -10,7 +10,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
     <!-- Page Title  -->
-    <title>Dashboard</title>
+    <title>@yield('title')</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ mix('css/theme.css') }}">
     <link id="skin-default" rel="stylesheet" href="{{ mix('css/theme.css') }}">
@@ -26,6 +26,15 @@
         content:" *";
         color: red;
         }
+        .col-sm-12 table{
+        border: 1px solid #e5e9f2;
+        border-radius: 4px;
+        margin-top: 1rem !important;
+        }
+        #company_table_filter{
+            float: right;
+        }
+
 </style>
     </style>
 </head>

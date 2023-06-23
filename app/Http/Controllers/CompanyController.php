@@ -92,18 +92,11 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, $id)
     {
         $company = Company::findOrFail($id);
-
         $validated = $request->validated();
-        $company->email = $validated['email'];
-        $company->name = $validated['name'];
-        $company->website = $validated['website'];
         if($request->hasFile('logo')){
-            $image = $request->file('logo');
-            $imageName = time(). '.'. $image->getClientOriginalExtension();
-            Storage::disk('public')->put($imageName, $image);
-            $company->logo = "public/". $imageName;
+            $validated['logo'] = Storage::disk('public')->put('companies', $request->logo);
         }
-        $company->save();
+        $company->update($validated);
 
         return response()->json(['message' => 'Updated Successfully']);
 
