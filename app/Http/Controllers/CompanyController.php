@@ -20,7 +20,7 @@ class CompanyController extends Controller
 
      public function __construct(){
         $this->middleware(['permission:create_company'])->only(['create', 'store']);
-        $this->middleware(['permission:read_company'])->only(['datatable']);
+        $this->middleware(['permission:read_company'])->only(['datatable', 'index']);
         $this->middleware(['permission:update_company'])->only(['edit', 'update']);
         $this->middleware(['permission:delete_company'])->only(['destroy']);
     }
