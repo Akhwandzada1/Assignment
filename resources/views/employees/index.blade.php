@@ -4,7 +4,7 @@
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
         <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Companies Table</h3>
+            <h3 class="nk-block-title page-title">Employees Table</h3>
             <div class="nk-block-des text-soft">
                 <!-- <p>You have total 2,595 users.</p> -->
             </div>
@@ -21,7 +21,7 @@
                                         <span>Add Company</span>
                                     </a> -->
                         <li class="preview-item">
-                            <button type="button" class="btn btn-primary" id="add_company">Add Company</button>
+                            <button type="button" class="btn btn-primary" id="add_employee">Add Employee</button>
                         </li>
                         </li>
 
@@ -33,46 +33,50 @@
 </div><!-- .nk-block-head -->
 <div class="card card-preview">
     <div class="card-inner">
-        <div class="table-responsive">
-        <table class="datatable-init nowrap table" id="company_table">
+        <table class="datatable-init nowrap table" id="employee_table">
             <thead>
                 <tr>
-                    <th>Logo</th>
-                    <th>Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Email</th>
-                    <th>Website</th>
+                    <th>Phone</th>
+                    <th>Company</th>
                     <th>Actions</th>
                 </tr>
             </thead>
         </table>
-        </div>
     </div>
 </div><!-- .card-preview -->
+
 @endsection
 
 @push('scripts')
 <script>
-    $(document).ready(function() {
-        $('#company_table').DataTable({
+$(document).ready(function() {
+        $('#employee_table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('companies.datatable') }}",
+            ajax: "{{ route('employees.datatable') }}",
             "columns": [
                 {
-                    name: 'logo',
-                    data: 'logo'
+                    name: 'first_name',
+                    data: 'first_name'
                 },
                 {
-                    name: 'name',
-                    data: 'name'
+                    name: 'last_name',
+                    data: 'last_name'
                 },
                 {
                     name: 'email',
                     data: 'email'
                 },
                 {
-                    name: 'website',
-                    data: 'website'
+                    name: 'phone',
+                    data: 'phone'
+                },
+                {
+                    name: 'company',
+                    data: 'company'
                 },
                 {
                     name: 'action',
@@ -82,47 +86,27 @@
                 }
             ]
         });
-    });
-    $(document).ready(function() {
-        $('#company_table_filter').css('padding-left', '63%');
-        $('#add_company').on('click', function() {
-            axios.get("{{ route('companies.create') }}").then(function(response) {
-                //$('#company_form_div').html(response.data)
+        $('#employee_table_filter').css('padding-left', '63%');
+        // To Open Create Form
+        $('#add_employee').on('click', function (){
+            axios.get("{{ route('employees.create') }}").then(function (response){
                 $('#modalForm').html(response.data)
                 $('#modalForm').modal('show');
-                NioApp.BS.fileinput('.custom-file-input');
-            }).catch(function(error) {
+            }).catch(function (error){
 
             })
-        });
-        $(document).on('click', '.company-edit', function() {
-            var url = $(this).attr('edit-url');
-            axios.get(url)
-                .then(function(response) {
-                    //$('#company_form_div').html(response.data)
-                    $('#modalForm').html(response.data)
-                    $('#modalForm').modal('show');
-                    NioApp.BS.fileinput('.custom-file-input');
-                }).catch(function(error) {
-
-                })
-        });
-        $(document).on('submit', '#company_form', function(e) {
-            var form = document.getElementById("company_form")
-            var url = $('#company_form').attr('action');
-            e.preventDefault();
-            var formdata = new FormData(form);
-            axios.post(url,
-                    formdata
-                ).then(function(response) {
-                    NioApp.Toast(response.data.message, 'success');
-                    $('#company_table').DataTable().ajax.reload();
-                    $('#modalForm').modal('hide');
-                })
-                .catch(function(error) {
-                    NioApp.Toast(error.response.data.message, 'error');
-                });
         })
+        //To Open Edit Form
+        $(document).on('click', '.employee-edit', function (){
+            var url = $(this).attr('edit-url');
+            axios.get(url).then(function (response){
+                $('#modalForm').html(response.data)
+                $('#modalForm').modal('show');
+            }).catch(function (error){
+
+            })
+        })
+        //To Open Delete Confirmation Box & then delete
         $(document).on('click', '.eg-swal-av3', function(e) {
             var deleteUrl = $(this).attr('delete-url');
             Swal.fire({
@@ -137,7 +121,7 @@
                     axios.delete(deleteUrl)
                     .then(function (response){
                         NioApp.Toast(response.data.message, 'success');
-                        $('#company_table').DataTable().ajax.reload();
+                        $('#employee_table').DataTable().ajax.reload();
                     }).catch(function (error){
                         NioApp.Toast('Unable to delete company', 'error');
                     })
@@ -145,6 +129,23 @@
             });
             e.preventDefault();
         });
+        //Edit & Add Employee functionality
+        $(document).on('submit', '#employee_form', function(e) {
+            var form = document.getElementById("employee_form")
+            var url = $('#employee_form').attr('action');
+            e.preventDefault();
+            var formdata = new FormData(form);
+            axios.post(url,
+                    formdata
+                ).then(function(response) {
+                    NioApp.Toast(response.data.message, 'success');
+                    $('#employee_table').DataTable().ajax.reload();
+                    $('#modalForm').modal('hide');
+                })
+                .catch(function(error) {
+                    NioApp.Toast(error.response.data.message, 'error');
+                });
+        })
     });
 </script>
 @endpush

@@ -26,6 +26,12 @@
         content:" *";
         color: red;
         }
+        .col-sm-12 table{
+        border: 1px solid #e5e9f2;
+        border-radius: 4px;
+        margin-top: 1rem !important;
+        }
+
 </style>
     </style>
 </head>
