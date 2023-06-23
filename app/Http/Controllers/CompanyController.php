@@ -42,9 +42,7 @@ class CompanyController extends Controller
     {
         $validated = $request->validated();
         $image = $request->file('logo');
-        $imageName = time(). '.' .$image->getClientOriginalExtension();
-        Storage::disk('companies')->put('public', $image);
-        $validated['logo'] = 'companies/' .$imageName;
+        $validated['logo'] = Storage::disk('public')->put('companies', $image);
         Company::create($validated);
 
         return response()->json(['message' => 'Added Successfully']);
