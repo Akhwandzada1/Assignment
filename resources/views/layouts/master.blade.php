@@ -14,6 +14,20 @@
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ mix('css/theme.css') }}">
     <link id="skin-default" rel="stylesheet" href="{{ mix('css/theme.css') }}">
+    <style>
+        .dataTables_length label select{
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+        .dataTables_paginate ul{
+            float: right;
+        }
+        .required:after {
+        content:" *";
+        color: red;
+        }
+</style>
+    </style>
 </head>
 
 <body class="nk-body bg-lighter npc-general has-sidebar ">
@@ -29,11 +43,15 @@
     </div>
     </div>
 
+    <div class="modal fade" id="modalForm">
+
+    </div>
 
 
 
     <script src="{{ mix('js/theme.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 
 </html>
