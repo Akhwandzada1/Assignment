@@ -18,18 +18,22 @@
                                 <li class="nk-menu-heading">
                                     <h6 class="overline-title text-primary-alt">Company Management</h6>
                                 </li><!-- .nk-menu-item -->
+                                @can('read_employee')
                                 <li class="nk-menu-item">
                                     <a href="html/crm/index.html" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-list"></em></span>
                                         <span class="nk-menu-text">Employees</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
+                                @endcan
+                                @can('read_company')
                                 <li class="nk-menu-item">
                                     <a href="{{ route('companies.index') }}" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-building"></em></span>
                                         <span class="nk-menu-text">Companies</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
+                                @endcan
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->
