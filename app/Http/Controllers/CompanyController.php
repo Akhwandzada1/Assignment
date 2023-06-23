@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,6 +17,14 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function __construct(){
+        $this->middleware(['permission:create_company'])->only(['create', 'store']);
+        $this->middleware(['permission:read_company'])->only(['datatable', 'index']);
+        $this->middleware(['permission:update_company'])->only(['edit', 'update']);
+        $this->middleware(['permission:delete_company'])->only(['destroy']);
+    }
+
     public function index()
     {
         return view('companies.index');
@@ -119,9 +128,13 @@ class CompanyController extends Controller
 
         return DataTables::of($companies)
         ->addColumn('action', function ($row){
-            $btn = '<button class="edit btn btn-primary btn-sm company-edit" id='.$row->id.' data-id=' .$row->id. ' edit-url=' .route('companies.edit', $row->id).'>Edit</button>&nbsp&nbsp';
-            $btn = $btn.'<button class="edit btn btn-danger btn-sm eg-swal-av3" id='.$row->id.' data-id='.$row->id.' delete-url=' .route('companies.destroy', $row->id ).'>Delete</button>';
-
+            $btn = '';
+            if(auth()->user()->hasPermissionTo('update_company')){
+                $btn .= '<button class="edit btn btn-primary btn-sm company-edit " id='.$row->id.' data-id=' .$row->id. ' edit-url=' .route('companies.edit', $row->id).'>Edit</button>&nbsp&nbsp';
+            }
+            if(auth()->user()->hasPermissionTo('delete_company')){
+                $btn .= '<button class="edit btn btn-danger btn-sm eg-swal-av3" id='.$row->id.' data-id='.$row->id.' delete-url=' .route('companies.destroy', $row->id ).'>Delete</button>';         
+            }
             return $btn;
         })
         ->editColumn('logo', function ($row){

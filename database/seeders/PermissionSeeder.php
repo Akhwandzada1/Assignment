@@ -19,7 +19,7 @@ class PermissionSeeder extends Seeder
             ['group' => 'employees', 'name' => 'create_employee', 'title' => 'Create Employees'],
             ['group' => 'employees','name' => 'read_employee', 'title' => 'Read Employees'],
             ['group' => 'employees', 'name' => 'update_employee', 'title' => 'Update Employees'],
-            ['group' => 'employees', 'name' => 'delete_employees', 'title' => 'Delete Employees'],
+            ['group' => 'employees', 'name' => 'delete_employee', 'title' => 'Delete Employees'],
             ['group' => 'companies', 'name' => 'create_company', 'title' => 'Create Companies'],
             ['group' => 'companies', 'name' => 'read_company', 'title' => 'Read Companies'],
             ['group' => 'companies', 'name' => 'update_company', 'title' => 'Update Companies'],
