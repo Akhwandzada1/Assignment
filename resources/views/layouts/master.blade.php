@@ -10,7 +10,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
     <!-- Page Title  -->
-    <title>Dashboard</title>
+    <title>@yield('title')</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ mix('css/theme.css') }}">
     <link id="skin-default" rel="stylesheet" href="{{ mix('css/theme.css') }}">
