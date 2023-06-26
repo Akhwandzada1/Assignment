@@ -21,7 +21,8 @@
         <div class="form-group">
             <label class="form-label required" for="detail">Detail</label>
             <div class="form-control-wrap">
-                <input type="text" class="form-control" id="detail" value="@isset($project){{ $project->detail }}@endisset" name="detail" required>
+                <!-- <input type="text" class="form-control" id="detail" value="@isset($project){{ $project->detail }}@endisset" name="detail" required> -->
+                <textarea class="form-control no-resize" id="detail" name="detail" required>@isset($project){{ $project->detail }}@endisset</textarea>
             </div>
         </div>
         <div class="form-group">
@@ -33,13 +34,14 @@
         <div class="form-group">
             <label class="form-label required" for="total_cost">Total Cost</label>
             <div class="form-control-wrap">
-                <input type="text" class="form-control" id="total_cost" value="@isset($project){{ $project->total_cost }}@endisset" name="total_cost" required>
+                <input type="number" class="form-control" id="total_cost" value="@isset($project){{ $project->total_cost }}@endisset" name="total_cost" required>
             </div>
         </div>
         <div class="form-group">
             <label class="form-label required" for="deadline">Deadline</label>
             <div class="form-control-wrap">
-                <input type="text" class="form-control" id="deadline" value="@isset($project){{ $project->deadline }}@endisset" name="deadline" required>
+                <!-- <input type="text" class="form-control" id="deadline" value="@isset($project){{ $project->deadline }}@endisset" name="deadline" required> -->
+                    <input type="text" class="form-control date-picker-alt" data-date-format="yyyy-mm-dd" id="deadline" name="deadline" value="@isset($project){{ $project->deadline }}@endisset">
             </div>
         </div>
         <div class="form-group">

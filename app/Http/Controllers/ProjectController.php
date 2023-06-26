@@ -14,6 +14,14 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct(){
+        $this->middleware(['permission:create_project'])->only(['create', 'store']);
+        $this->middleware(['permission:read_project'])->only(['datatable', 'index']);
+        $this->middleware(['permission:update_project'])->only(['edit', 'update']);
+        $this->middleware(['permission:delete_project'])->only(['destroy']);
+    }
+
     public function index()
     {
         return view('projects.index');
@@ -95,16 +103,16 @@ class ProjectController extends Controller
     }
 
     public function datatable(){
-        $projects = Project::all();
+        $projects = Project::query();
 
         return DataTables::of($projects)
         ->addColumn('action', function ($row){
             $btn = '';
             if(auth()->user()->hasPermissionTo('update_project')){
-                $btn .= '<button class="edit btn btn-primary btn-sm project-edit " id='.$row->id.' data-id=' .$row->id. ' edit-url=' .route('projects.edit', $row->id).'>Edit</button>&nbsp&nbsp';
+                $btn .= '<button class="edit btn btn-primary btn-sm project-edit " id='.$row->id.' data-id=' .$row->id. ' edit-url=' .route('projects.edit', $row->id).'>Edit</button>';
             }
             if(auth()->user()->hasPermissionTo('delete_project')){
-                $btn .= '<button class="edit btn btn-danger btn-sm eg-swal-av3" id='.$row->id.' data-id='.$row->id.' delete-url=' .route('projects.destroy', $row->id ).'>Delete</button>';         
+                $btn .= '<button class="edit btn btn-danger btn-sm eg-swal-av3 delete-confirmation" id='.$row->id.' data-id='.$row->id.' delete-url=' .route('projects.destroy', $row->id ).'>Delete</button>';         
             }
             return $btn;
         })

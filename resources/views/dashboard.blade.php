@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+    Dashboard
+@endsection
+
 @section('content')
 <div class="container-fluid">
     <div class="nk-content-inner">

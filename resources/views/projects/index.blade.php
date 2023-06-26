@@ -8,7 +8,7 @@
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
         <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Projects Table</h3>
+            <h3 class="nk-block-title page-title">Projects</h3>
             <div class="nk-block-des text-soft">
                 <!-- <p>You have total 2,595 users.</p> -->
             </div>
@@ -97,6 +97,7 @@
             axios.get("{{ route('projects.create') }}").then(function (response){
                 $('#modalForm').html(response.data)
                 $('#modalForm').modal('show');
+                NioApp.Picker.dob('.date-picker-alt');
             }).catch(function (error){
 
             });
@@ -106,11 +107,12 @@
             axios.get(url).then(function (response){
                 $('#modalForm').html(response.data)
                 $('#modalForm').modal('show');
+                NioApp.Picker.dob('.date-picker-alt');
             }).catch(function (error){
 
             })
         });
-        $(document).on('click', '.eg-swal-av3', function(e) {
+        $(document).on('click', '.delete-confirmation', function(e) {
             var deleteUrl = $(this).attr('delete-url');
             Swal.fire({
                 title: 'Are you sure?',
