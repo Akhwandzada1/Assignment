@@ -34,6 +34,14 @@
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 @endcan
+                                @can('read_project')
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('projects.index') }}" class="nk-menu-link">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-brick"></em></span>
+                                        <span class="nk-menu-text">Projects</span>
+                                    </a>
+                                </li><!-- .nk-menu-item -->
+                                @endcan
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->

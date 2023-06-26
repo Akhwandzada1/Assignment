@@ -24,6 +24,10 @@ class PermissionSeeder extends Seeder
             ['group' => 'companies', 'name' => 'read_company', 'title' => 'Read Companies'],
             ['group' => 'companies', 'name' => 'update_company', 'title' => 'Update Companies'],
             ['group' => 'companies', 'name' => 'delete_company', 'title' => 'Delete Companies'],
+            ['group' => 'projects', 'name' => 'create_project', 'title' => 'Create Project'],
+            ['group' => 'projects', 'name' => 'read_project', 'title' => 'Read Project'],
+            ['group' => 'projects', 'name' => 'update_project', 'title' => 'Update Project'],
+            ['group' => 'projects', 'name' => 'delete_project', 'title' => 'Delete Project']
         ];
 
         foreach($permissions as $permission){

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\ProjectRequest;
 
 class ProjectController extends Controller
 {
@@ -13,7 +16,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        return view('projects.index');
     }
 
     /**
@@ -23,7 +26,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('projects.form');
     }
 
     /**
@@ -32,9 +35,11 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProjectRequest $request)
     {
-        //
+        Project::create($request->validated());
+
+        return response()->json(['message' => 'Project Created Successfully']);
     }
 
     /**
@@ -56,7 +61,8 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $project = Project::findOrFail($id);
+        return view('projects.form', compact('project'));
     }
 
     /**
@@ -66,9 +72,12 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProjectRequest $request, $id)
     {
-        //
+        $project = Project::findOrFail($id);
+        $project->update($request->validated());
+
+        return response()->json(['message' => 'Project Updated Successfully']);
     }
 
     /**
@@ -79,6 +88,27 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $project = Project::findOrFail($id);
+        $project->delete();
+
+        return response()->json(['message' => 'Project Deleted Successfully']);
+    }
+
+    public function datatable(){
+        $projects = Project::all();
+
+        return DataTables::of($projects)
+        ->addColumn('action', function ($row){
+            $btn = '';
+            if(auth()->user()->hasPermissionTo('update_project')){
+                $btn .= '<button class="edit btn btn-primary btn-sm project-edit " id='.$row->id.' data-id=' .$row->id. ' edit-url=' .route('projects.edit', $row->id).'>Edit</button>&nbsp&nbsp';
+            }
+            if(auth()->user()->hasPermissionTo('delete_project')){
+                $btn .= '<button class="edit btn btn-danger btn-sm eg-swal-av3" id='.$row->id.' data-id='.$row->id.' delete-url=' .route('projects.destroy', $row->id ).'>Delete</button>';         
+            }
+            return $btn;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
     }
 }

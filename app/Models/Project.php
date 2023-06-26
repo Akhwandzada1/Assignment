@@ -9,6 +9,13 @@ class Project extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'detail',
+        'client',
+        'total_cost',
+        'deadline'
+    ];
 
     public function employees(){
         return $this->belongsToMany(Employee::class);
