@@ -36,6 +36,7 @@ class ProjectRequest extends FormRequest
                         'client' => 'required|string',
                         'total_cost' => 'required|string',
                         'deadline' => 'required|date|after_or_equal:'.Carbon::today()->toDateString(),
+                        'employees' => 'required'
                     ];
                 }
             case 'PUT': {
@@ -45,6 +46,7 @@ class ProjectRequest extends FormRequest
                     'client' => 'required|string',
                     'total_cost' => 'required|string',
                     'deadline' => 'required|date|before_or_equal:'.Project::find($id)->deadline,
+                    'employees' => 'required'
                 ];
             }
         }

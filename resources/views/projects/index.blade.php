@@ -98,6 +98,7 @@
                 $('#modalForm').html(response.data)
                 $('#modalForm').modal('show');
                 NioApp.Picker.dob('.date-picker-alt');
+                NioApp.Select2('.form-select');
             }).catch(function (error){
 
             });
@@ -108,6 +109,7 @@
                 $('#modalForm').html(response.data)
                 $('#modalForm').modal('show');
                 NioApp.Picker.dob('.date-picker-alt');
+                NioApp.Select2('.form-select');
             }).catch(function (error){
 
             })
