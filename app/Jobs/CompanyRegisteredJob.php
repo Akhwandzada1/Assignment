@@ -3,17 +3,19 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CompanyRegistrationMail;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use App\Mail\CompanyRegistrationMail;
-use Illuminate\Support\Facades\Mail;
+use App\Models\User;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 
-class SendCompanyRegistrationMailJob implements ShouldQueue
+class CompanyRegisteredJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     /**
      * Create a new job instance.
      *
@@ -31,6 +33,9 @@ class SendCompanyRegistrationMailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to('hamidshaukat.akwandzada@hotmail.com')->send(new CompanyRegistrationMail());
+        $admins = User::role('admin')->get();
+        foreach($admins as $admin){
+        Mail::to($admin->email)->send(new CompanyRegistrationMail());
+        }
     }
 }

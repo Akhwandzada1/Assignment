@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\CompanyRegistrationMail;
-use App\Jobs\SendCompanyRegistrationMailJob;
+use App\Jobs\CompanyRegisteredJob;
 
 
 class CompanyController extends Controller
@@ -56,7 +55,7 @@ class CompanyController extends Controller
         $image = $request->file('logo');
         $validated['logo'] = Storage::disk('public')->put('companies', $image);
         Company::create($validated);
-        SendCompanyRegistrationMailJob::dispatch();
+        CompanyRegisteredJob::dispatch();
 
         return response()->json(['message' => 'Added Successfully']);
 
