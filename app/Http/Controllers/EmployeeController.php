@@ -114,10 +114,10 @@ class EmployeeController extends Controller
         ->addColumn('action', function ($row){
             $btn = '';
             if(auth()->user()->hasPermissionTo('update_employee')){
-                $btn .= '<button class="edit btn btn-primary btn-sm employee-edit " id='.$row->id.' data-id=' .$row->id. ' edit-url=' .route('employees.edit', $row->id).'>Edit</button>&nbsp&nbsp';
+                $btn .= '<button class="edit btn btn-primary btn-sm employee-edit " id='.$row->id.' data-id=' .$row->id. ' edit-url=' .route('employees.edit', $row->id).'>Edit</button>';
             }
             if(auth()->user()->hasPermissionTo('delete_employee')){
-                $btn .= '<button class="edit btn btn-danger btn-sm eg-swal-av3" id='.$row->id.' data-id='.$row->id.' delete-url=' .route('employees.destroy', $row->id ).'>Delete</button>';         
+                $btn .= '<button class="edit btn btn-danger btn-sm eg-swal-av3 delete-confirmation" id='.$row->id.' data-id='.$row->id.' delete-url=' .route('employees.destroy', $row->id ).'>Delete</button>';         
             }
             return $btn;
         })

@@ -34,6 +34,15 @@
         #company_table_filter{
             float: right;
         }
+        #project_table_filter{
+            float: right;
+        }
+        #company_table_filter{
+            float: right;
+        }
+        .edit {
+            margin-right: 3%;
+        }
 
 </style>
     </style>

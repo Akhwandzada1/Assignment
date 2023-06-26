@@ -123,10 +123,10 @@ class CompanyController extends Controller
         ->addColumn('action', function ($row){
             $btn = '';
             if(auth()->user()->hasPermissionTo('update_company')){
-                $btn .= '<button class="edit btn btn-primary btn-sm company-edit " id='.$row->id.' data-id=' .$row->id. ' edit-url=' .route('companies.edit', $row->id).'>Edit</button>&nbsp&nbsp';
+                $btn .= '<button class="edit btn btn-primary btn-sm company-edit " id='.$row->id.' data-id=' .$row->id. ' edit-url=' .route('companies.edit', $row->id).'>Edit</button>';
             }
             if(auth()->user()->hasPermissionTo('delete_company')){
-                $btn .= '<button class="edit btn btn-danger btn-sm eg-swal-av3" id='.$row->id.' data-id='.$row->id.' delete-url=' .route('companies.destroy', $row->id ).'>Delete</button>';         
+                $btn .= '<button class="edit btn btn-danger btn-sm eg-swal-av3 delete-confirmation" id='.$row->id.' data-id='.$row->id.' delete-url=' .route('companies.destroy', $row->id ).'>Delete</button>';         
             }
             return $btn;
         })

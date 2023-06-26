@@ -1,14 +1,14 @@
 @extends('layouts.master')
 
 @section('title')
-    Employees
+    Projects
 @endsection
 
 @section('content')
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
         <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Employees</h3>
+            <h3 class="nk-block-title page-title">Projects</h3>
             <div class="nk-block-des text-soft">
                 <!-- <p>You have total 2,595 users.</p> -->
             </div>
@@ -25,8 +25,8 @@
                                         <span>Add Company</span>
                                     </a> -->
                         <li class="preview-item">
-                            @can('create_employee')
-                            <button type="button" class="btn btn-primary" id="add_employee">Add Employee</button>
+                            @can('create_project')
+                            <button type="button" class="btn btn-primary" id="add_project">Add Project</button>
                             @endcan
                         </li>
                         </li>
@@ -39,80 +39,79 @@
 </div><!-- .nk-block-head -->
 <div class="card card-preview">
     <div class="card-inner">
-        <table class="datatable-init nowrap table" id="employee_table">
+        <div class="table-responsive">
+        <table class="datatable-init nowrap table" id="project_table">
             <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Company</th>
+                    <th>Name</th>
+                    <th>Detail</th>
+                    <th>Client</th>
+                    <th>Total Cost</th>
+                    <th>Deadline</th>
                     <th>Actions</th>
                 </tr>
             </thead>
         </table>
+        </div>
     </div>
 </div><!-- .card-preview -->
-
 @endsection
 
 @push('scripts')
 <script>
-$(document).ready(function() {
-        $('#employee_table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('employees.datatable') }}",
-            "columns": [
-                {
-                    name: 'first_name',
-                    data: 'first_name'
-                },
-                {
-                    name: 'last_name',
-                    data: 'last_name'
-                },
-                {
-                    name: 'email',
-                    data: 'email'
-                },
-                {
-                    name: 'phone',
-                    data: 'phone'
-                },
-                {
-                    name: 'company',
-                    data: 'company'
-                },
-                {
-                    name: 'action',
-                    data: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ]
+    $(document).ready(function (){
+        $('#project_table').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: "{{ route('projects.datatable') }}",
+          columns : [
+            {
+                name: 'name',
+                data: 'name'
+            },
+            {
+                name: 'detail',
+                data: 'detail',
+            },
+            {
+                name: 'client',
+                data: 'client'
+            },
+            {
+                name: 'total_cost',
+                data: 'total_cost'
+            },
+            {
+                name: 'deadline',
+                data: 'deadline'
+            },
+            {
+                name: 'action',
+                data: 'action',
+                orderable: false,
+                searchable: false
+            }
+          ]  
         });
-
-        // To Open Create Form
-        $('#add_employee').on('click', function (){
-            axios.get("{{ route('employees.create') }}").then(function (response){
+        $('#add_project').on('click', function (){
+            axios.get("{{ route('projects.create') }}").then(function (response){
                 $('#modalForm').html(response.data)
                 $('#modalForm').modal('show');
+                NioApp.Picker.dob('.date-picker-alt');
             }).catch(function (error){
 
-            })
+            });
         })
-        //To Open Edit Form
-        $(document).on('click', '.employee-edit', function (){
+        $(document).on('click', '.project-edit', function (){
             var url = $(this).attr('edit-url');
             axios.get(url).then(function (response){
                 $('#modalForm').html(response.data)
                 $('#modalForm').modal('show');
+                NioApp.Picker.dob('.date-picker-alt');
             }).catch(function (error){
 
             })
-        })
-        //To Open Delete Confirmation Box & then delete
+        });
         $(document).on('click', '.delete-confirmation', function(e) {
             var deleteUrl = $(this).attr('delete-url');
             Swal.fire({
@@ -127,24 +126,23 @@ $(document).ready(function() {
                     axios.delete(deleteUrl)
                     .then(function (response){
                         NioApp.Toast(response.data.message, 'success');
-                        $('#employee_table').DataTable().ajax.reload();
+                        $('#project_table').DataTable().ajax.reload();
                     }).catch(function (error){
                         NioApp.Toast(error.response.data.message, 'error');
                     })
                 }
             });
         });
-        //Edit & Add Employee functionality
-        $(document).on('submit', '#employee_form', function(e) {
-            var form = document.getElementById("employee_form")
-            var url = $('#employee_form').attr('action');
+        $(document).on('submit', '#project_form', function(e) {
+            var form = document.getElementById("project_form")
+            var url = $('#project_form').attr('action');
             e.preventDefault();
             var formdata = new FormData(form);
             axios.post(url,
                     formdata
                 ).then(function(response) {
                     NioApp.Toast(response.data.message, 'success');
-                    $('#employee_table').DataTable().ajax.reload();
+                    $('#project_table').DataTable().ajax.reload();
                     $('#modalForm').modal('hide');
                 })
                 .catch(function(error) {

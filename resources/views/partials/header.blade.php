@@ -19,8 +19,8 @@
                                                     <em class="icon ni ni-user-alt"></em>
                                                 </div>
                                                 <div class="user-info d-none d-md-block">
-                                                    <div class="user-status">Administrator</div>
-                                                    <div class="user-name dropdown-indicator">{{ Auth::user()->name }}</div>
+                                                    <div class="user-status">{{ auth()->user()->getRoleNames()->first() }}</div>
+                                                    <div class="user-name dropdown-indicator">{{ auth()->user()->name }}</div>
                                                 </div>
                                             </div>
                                         </a>

@@ -8,7 +8,7 @@
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
         <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Companies Table</h3>
+            <h3 class="nk-block-title page-title">Companies</h3>
             <div class="nk-block-des text-soft">
                 <!-- <p>You have total 2,595 users.</p> -->
             </div>
@@ -129,7 +129,7 @@
                     NioApp.Toast(error.response.data.message, 'error');
                 });
         })
-        $(document).on('click', '.eg-swal-av3', function(e) {
+        $(document).on('click', '.delete-confirmation', function(e) {
             var deleteUrl = $(this).attr('delete-url');
             Swal.fire({
                 title: 'Are you sure?',
