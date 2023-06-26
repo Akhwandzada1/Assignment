@@ -44,7 +44,7 @@ class ProjectRequest extends FormRequest
                     'detail' => 'required|string',
                     'client' => 'required|string',
                     'total_cost' => 'required|string',
-                    'deadline' => 'required|date|before_or_equal:'.Project::find($id)->deadline,
+                    'deadline' => 'required|date|after_or_equal:'.Project::find($id)->deadline,
                 ];
             }
         }

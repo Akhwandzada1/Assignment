@@ -34,7 +34,7 @@
         <div class="form-group">
             <label class="form-label required" for="total_cost">Total Cost</label>
             <div class="form-control-wrap">
-                <input type="number" class="form-control" id="total_cost" value="@isset($project){{ $project->total_cost }}@endisset" name="total_cost" required>
+                <input type="number" step="any" class="form-control" id="total_cost" value="@isset($project){{ $project->total_cost }}@endisset" name="total_cost" required>
             </div>
         </div>
         <div class="form-group">
