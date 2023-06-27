@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CompanyRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class CompanyRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        return true;
     }
 
     /**
@@ -24,19 +23,9 @@ class CompanyRequest extends FormRequest
      */
     public function rules()
     {
-        $id = request()->route('company');
-        $rules = [
-            'name' => 'required|unique:companies,name,'. $id . ',id',
+        return [
             'email' => 'required|email',
-            'website' => 'required|url',
-            'logo' => 'required|image'
-
+            'password' => 'required|string'
         ];
-
-        if(request()->route()->methods[0] == 'PUT'){
-            $rules['logo'] = '';
-        }
-
-        return $rules;
     }
 }
