@@ -15,7 +15,11 @@ class ProjectRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if(auth()->user()->hasPermissionTo('update_project') || auth()->user()->hasPermissionTo('create_project')){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

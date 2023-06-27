@@ -14,15 +14,11 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $companies = Company::paginate(10);
 
-        if($companies->isEmpty()){
-            return response()->json(['success' => false, 'message' => 'No Company Found'], 404);
-        }
-
-        return response()->json((new CompanyTransformer())->transform($companies), 200);
+        return response()->json(['success' => true, 'data' => (new CompanyTransformer())->transform($companies), 'message' => 'Companies retrieved successfully'], 200);
     }
 
     /**

@@ -14,7 +14,7 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $employees = Employee::with('company')->paginate(10);
 
@@ -22,7 +22,7 @@ class EmployeeController extends Controller
             return response()->json(['success' => false, 'message' => 'No Company Found']);
         }
 
-        return response()->json((new EmployeeTransformer())->transform($employees), 200);
+        return response()->json(['success' => 'true', 'data' => (new EmployeeTransformer())->transform($employees), 'message' => 'Employees retrieved successfully'], 200);
     }
 
     /**

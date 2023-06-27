@@ -14,7 +14,11 @@ class CompanyRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if(auth()->user()->hasPermissionTo('update_company') || auth()->user()->hasPermissionTo('create_company')){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

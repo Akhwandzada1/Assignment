@@ -32,7 +32,7 @@ class LoginController extends Controller
         if(Auth::attempt($request->only(['email', 'password']))){
             $user = Auth::user();
             $accessToken = $user->createToken('MyApp')->plainTextToken;
-            return response()->json((new UserTransformer())->transform($user, ['withToken' => $accessToken]), 200);
+            return response()->json(['success' => true ,'data' => (new UserTransformer())->transform($user, ['withToken' => $accessToken]), 'message' => 'Login Successful'], 200);
         }
 
         return response()->json(['success' => false, 'message' => 'Invalid Credentials'], 401);
