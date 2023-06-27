@@ -13,11 +13,7 @@ class EmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        if(auth()->user()->hasPermissionTo('update_employee') || auth()->user()->hasPermissionTo('create_employee')){
-            return true;
-        } else {
-            return false;
-        }
+        return auth()->check();
     }
 
     /**

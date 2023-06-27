@@ -21,9 +21,15 @@ class ProjectController extends Controller
     
     public function index(Request $request)
     {
+        if($request->keyword == null){
         $projects = Project::paginate(10);
-        
         return response()->json(['success' => true, 'data' => (new ProjectTransformer())->transform($projects), 'message' => 'Projects retrieved successfully'], 200);
+        } else {
+            $projects = Project::where(function ($query) use ($request){
+                return $query->where('name', 'LIKE', '%'.$request->keyword.'%');
+            })->paginate(10);
+            return response()->json(['success' => true, 'data' => (new ProjectTransformer())->transform($projects), 'message' => 'Projects retrieved successfully'], 200);
+        }
     }
 
     /**
