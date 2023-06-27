@@ -6,6 +6,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\ProjectRequest;
+use App\Models\Employee;
 
 class ProjectController extends Controller
 {
@@ -34,8 +35,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.form');
-    }
+        $employees = Employee::all();
+        return view('projects.form', compact('employees'));
+    }   
 
     /**
      * Store a newly created resource in storage.
@@ -45,7 +47,8 @@ class ProjectController extends Controller
      */
     public function store(ProjectRequest $request)
     {
-        Project::create($request->validated());
+        $project = Project::create($request->validated());
+        $project->employees()->attach($request->validated('employees'));
 
         return response()->json(['message' => 'Project Created Successfully']);
     }
@@ -69,8 +72,9 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        $project = Project::findOrFail($id);
-        return view('projects.form', compact('project'));
+        $project = Project::with('employees')->findOrFail($id);
+        $employees = Employee::all();
+        return view('projects.form', compact('project', 'employees'));
     }
 
     /**
@@ -84,6 +88,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $project->update($request->validated());
+        $project->employees()->sync($request->validated('employees'));
 
         return response()->json(['message' => 'Project Updated Successfully']);
     }

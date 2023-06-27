@@ -34,14 +34,24 @@
         <div class="form-group">
             <label class="form-label required" for="total_cost">Total Cost</label>
             <div class="form-control-wrap">
-                <input type="number" class="form-control" id="total_cost" value="@isset($project){{ $project->total_cost }}@endisset" name="total_cost" required>
+                <input type="number" class="form-control" step="any" id="total_cost" value="@isset($project){{ $project->total_cost }}@endisset" name="total_cost" required>
             </div>
         </div>
         <div class="form-group">
             <label class="form-label required" for="deadline">Deadline</label>
             <div class="form-control-wrap">
-                <!-- <input type="text" class="form-control" id="deadline" value="@isset($project){{ $project->deadline }}@endisset" name="deadline" required> -->
                     <input type="text" class="form-control date-picker-alt" data-date-format="yyyy-mm-dd" id="deadline" name="deadline" value="@isset($project){{ $project->deadline }}@endisset">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label required">Select Employees</label>
+            <div class="form-control-wrap">
+                <select class="form-select" multiple="multiple" id="employees" name="employees[]" value="" data-placeholder="Select Multiple Employees">
+                    <option value="default_option">Default Option</option>
+                    @foreach($employees as $employee)
+                    <option value="{{ $employee->id }}" @isset($project) @foreach($project->employees as $project_employee) @if($project_employee->id == $employee->id) selected @endif @endforeach @endisset>{{ $employee->first_name. " " .$employee->last_name }}</option>
+                    @endforeach 
+                </select>
             </div>
         </div>
         <div class="form-group">
