@@ -22,15 +22,11 @@ class CompanyController extends Controller
     
     public function index(Request $request)
     {
-        if($request->keyword == null){
-        $companies = Company::paginate(10);
+        $companies = Company::when($request->keyword, function ($query) use ($request){
+            return $query->where('name', 'LIKE', '%'. $request->keyword .'%');
+        })->paginate(10);
         return response()->json(['success' => true, 'data' => (new CompanyTransformer())->transform($companies), 'message' => 'Companies retrieved successfully'], 200);
-        } else {
-            $companies = Company::where(function ($query) use ($request){
-                return $query->where('name', 'LIKE', '%'. $request->keyword .'%');
-            })->paginate(10);
-            return response()->json(['success' => true, 'data' => (new CompanyTransformer())->transform($companies), 'message' => 'Companies retrieved successfully'], 200);
-        }
+
     }
 
     /**

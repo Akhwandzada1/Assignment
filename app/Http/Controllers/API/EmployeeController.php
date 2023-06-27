@@ -20,21 +20,16 @@ class EmployeeController extends Controller
     }
     
     public function index(Request $request)
-    {
-        if($request->keyword == null){
-            $employees = Employee::with('company')->paginate(10);
-            return response()->json(['success' => 'true', 'data' => (new EmployeeTransformer())->transform($employees), 'message' => 'Employees retrieved successfully'], 200);
-        } else {
-            $employees = Employee::where(function ($query) use ($request){
-                return $query->where('first_name', 'LIKE', '%'. $request->keyword .'%');
-            })
-            ->orWhere(function ($query) use ($request){
-                return $query->where('last_name', 'LIKE', '%'. $request->keyword .'%');
-            })
-            ->with('company')->paginate(10);
+    { 
+        $employees = Employee::when($request->keyword, function ($query) use ($request){
+            return $query->where('first_name', 'LIKE', '%'. $request->keyword .'%');
+        })
+        ->when($request->keyword, function ($query) use ($request){
+            return $query->orWhere('last_name', 'LIKE', '%'. $request->keyword .'%');
+        })
+        ->with('company')->paginate(10);
 
-            return response()->json(['success' => 'true', 'data' => (new EmployeeTransformer())->transform($employees), 'message' => 'Employees retrieved successfully']);
-        }
+        return response()->json(['success' => 'true', 'data' => (new EmployeeTransformer())->transform($employees), 'message' => 'Employees retrieved successfully']);
     }
 
     /**
