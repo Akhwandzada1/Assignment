@@ -14,14 +14,14 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+    
     public function index(Request $request)
     {
         $employees = Employee::with('company')->paginate(10);
-
-        if($employees->isEmpty()){
-            return response()->json(['success' => false, 'message' => 'No Company Found']);
-        }
-
         return response()->json(['success' => 'true', 'data' => (new EmployeeTransformer())->transform($employees), 'message' => 'Employees retrieved successfully'], 200);
     }
 

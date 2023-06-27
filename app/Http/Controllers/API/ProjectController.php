@@ -14,15 +14,16 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+    
     public function index(Request $request)
     {
         $projects = Project::paginate(10);
-
-        if($projects->isEmpty()){
-            return response()->json(['success' => false, 'message' => 'No projects found'], 404);
-        } else {
-            return response()->json(['success' => true, 'data' => (new ProjectTransformer())->transform($projects), 'message' => 'Projects retrieved successfully'], 200);
-        }
+        
+        return response()->json(['success' => true, 'data' => (new ProjectTransformer())->transform($projects), 'message' => 'Projects retrieved successfully'], 200);
     }
 
     /**
