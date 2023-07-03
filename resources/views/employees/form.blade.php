@@ -41,7 +41,7 @@
             <div class="form-control-wrap ">
                 <div class="form-control-select">
                     <select class="form-control" id="company_id" name="company_id">
-                        <option value="default_option" @if(!isset($employee)) selected @endif>Default Option</option>
+                        <option value="default_option" selected disabled>Please Select</option>
                         @foreach($companies as $company)
                         <option value="{{ $company->id }}" @isset($employee) {{ $employee->company_id == $company->id ? 'selected' : '' }} @endisset>{{ $company->name }}</option>
                         @endforeach

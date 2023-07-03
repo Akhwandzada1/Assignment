@@ -98,7 +98,10 @@
                 $('#modalForm').html(response.data)
                 $('#modalForm').modal('show');
                 NioApp.Picker.dob('.date-picker-alt');
-                NioApp.Select2('.form-select');
+                NioApp.Select2('.form-select', {
+                    placeholder: "Select Employees",
+                });
+                $('.select2-search__field').width('100%')
             }).catch(function (error){
 
             });

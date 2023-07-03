@@ -55,7 +55,7 @@ class CompanyController extends Controller
         $filename = uniqid() . '.' . $image->getClientOriginalExtension();
         $resizedImage = Image::make($image)->resize(200, 100)->encode();
         Storage::disk('public')->put('companies/' . $filename, $resizedImage);
-        $validated['logo'] = Str::after(Storage::path($filename), "app");
+        $validated['logo'] = 'companies/' . $filename;
         Company::create($validated);
         CompanyRegisteredJob::dispatch();
 
@@ -103,7 +103,7 @@ class CompanyController extends Controller
             $filename = uniqid() . '.' . $image->getClientOriginalExtension();
             $resizedImage = Image::make($image)->resize(200, 100)->encode();
             Storage::disk('public')->put('companies/' . $filename, $resizedImage);
-            $validated['logo'] = Str::after(Storage::path($filename), "app");
+            $validated['logo'] = 'companies/' . $filename;
         }
         $company->update($validated);
 
@@ -140,7 +140,7 @@ class CompanyController extends Controller
             return $btn;
         })
         ->editColumn('logo', function ($row){
-            return '<img src="/storage/companies'.$row->logo.' ">';
+            return '<img src="/storage/'.$row->logo.' ">';
         })
         ->rawColumns(['action', 'logo'])
         ->make(true);
