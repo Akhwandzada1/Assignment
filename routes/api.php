@@ -24,5 +24,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResources(['login' => LoginController::class, 'employees' => EmployeeController::class,
 'projects' => ProjectController::class, 'companies' => CompanyController::class]);
-
-Route::get('/employees-filter', [EmployeeController::class, 'employeesFilter']);
