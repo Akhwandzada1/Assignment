@@ -22,10 +22,8 @@ class EmployeeController extends Controller
     public function index(Request $request)
     { 
         $employees = Employee::when($request->keyword, function ($query) use ($request){
-            return $query->where('first_name', 'LIKE', '%'. $request->keyword .'%');
-        })
-        ->when($request->keyword, function ($query) use ($request){
-            return $query->orWhere('last_name', 'LIKE', '%'. $request->keyword .'%');
+            return $query->where('first_name', 'LIKE', '%'. $request->keyword .'%')
+            ->orWhere('last_name', 'LIKE', '%'. $request->keyword .'%');
         })
         ->with('company')->paginate(10);
 
@@ -75,5 +73,33 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function companyNameFilter(Request $request){
+        $employees = Employee::whereHas('company', function ($query) use ($request){
+            return $query->where('name', $request->companyName);
+        })->with('company')->paginate(10);
+
+        return response()->json(['success' => 'true', 'data' => (new EmployeeTransformer())->transform($employees), 'message' => 'Data retrieved successfully']);
+    }
+
+    public function employeeProjectFilter(Request $request){
+        $employees = Employee::whereHas('projects', function ($query) use ($request){
+            return $query->where('name', $request->projectName);
+        })->with('company', 'projects')->paginate(10);
+
+        return response()->json(['success' => true, 'data' => (new EmployeeTransformer())->transform($employees), 'message' => 'Data retrived successfully']);
+    }
+
+    public function employeeNameProjectFilter(Request $request){
+        $employees = Employee::when($request->employeeName, function ($query) use ($request){
+            return $query->where('first_name', $request->employeeName)
+            ->orWhere('last_name', $request->employeeName);
+        })
+        ->whereHas('projects', function ($query) use ($request){
+            return $query->where('name', $request->projectName);
+        })->with('company', 'projects')->paginate(10);
+
+        return response()->json(['success' => true, 'data' => (new EmployeeTransformer())->transform($employees), 'message' => 'Data retrieved successfully']);
     }
 }

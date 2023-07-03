@@ -73,4 +73,9 @@ class CompanyController extends Controller
     {
         //
     }
+
+    public function companyEmployeesCountFilter(Request $request){
+        $companies = Company::has('employees', '>=', $request->count)->with('employees')->paginate(10);
+        return response()->json(['success' => true, 'data' => (new CompanyTransformer())->transform($companies), 'message' => 'Data retrieved successfully']);
+    }
 }

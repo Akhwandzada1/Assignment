@@ -47,7 +47,7 @@
             <label class="form-label required">Select Employees</label>
             <div class="form-control-wrap">
                 <select class="form-select" multiple="multiple" id="employees" name="employees[]" value="" data-placeholder="Select Multiple Employees">
-                    <option value="default_option">Default Option</option>
+                    <option value="default_option" @if(!isset($project)) selected @endif>Default Option</option>
                     @foreach($employees as $employee)
                     <option value="{{ $employee->id }}" @isset($project) @foreach($project->employees as $project_employee) @if($project_employee->id == $employee->id) selected @endif @endforeach @endisset>{{ $employee->first_name. " " .$employee->last_name }}</option>
                     @endforeach 
