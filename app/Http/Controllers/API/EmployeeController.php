@@ -22,10 +22,8 @@ class EmployeeController extends Controller
     public function index(Request $request)
     { 
         $employees = Employee::when($request->keyword, function ($query) use ($request){
-            return $query->where('first_name', 'LIKE', '%'. $request->keyword .'%');
-        })
-        ->when($request->keyword, function ($query) use ($request){
-            return $query->orWhere('last_name', 'LIKE', '%'. $request->keyword .'%');
+            return $query->where('first_name', 'LIKE', '%'. $request->keyword .'%')
+            ->orWhere('last_name', 'LIKE', '%'. $request->keyword .'%');
         })
         ->with('company')->paginate(10);
 
@@ -76,4 +74,5 @@ class EmployeeController extends Controller
     {
         //
     }
+    
 }

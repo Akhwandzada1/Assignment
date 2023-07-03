@@ -40,6 +40,9 @@
         #company_table_filter{
             float: right;
         }
+        #employee_table_filter{
+            float: right;
+        }
         .edit {
             margin-right: 3%;
         }

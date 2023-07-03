@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Mail;
 use App\Jobs\CompanyRegisteredJob;
+use Image;
+use Illuminate\Support\Str;
 
 
 class CompanyController extends Controller
@@ -53,7 +52,10 @@ class CompanyController extends Controller
     {
         $validated = $request->validated();
         $image = $request->file('logo');
-        $validated['logo'] = Storage::disk('public')->put('companies', $image);
+        $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+        $resizedImage = Image::make($image)->resize(200, 100)->encode();
+        Storage::disk('public')->put('companies/' . $filename, $resizedImage);
+        $validated['logo'] = 'companies/' . $filename;
         Company::create($validated);
         CompanyRegisteredJob::dispatch();
 
@@ -97,7 +99,11 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         $validated = $request->validated();
         if($request->hasFile('logo')){
-            $validated['logo'] = Storage::disk('public')->put('companies', $request->logo);
+            $image = $request->file('logo');
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+            $resizedImage = Image::make($image)->resize(200, 100)->encode();
+            Storage::disk('public')->put('companies/' . $filename, $resizedImage);
+            $validated['logo'] = 'companies/' . $filename;
         }
         $company->update($validated);
 
