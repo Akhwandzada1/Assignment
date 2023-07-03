@@ -22,12 +22,29 @@ class EmployeeController extends Controller
     public function index(Request $request)
     { 
         $employees = Employee::when($request->keyword, function ($query) use ($request){
-            return $query->where('first_name', 'LIKE', '%'. $request->keyword .'%')
-            ->orWhere('last_name', 'LIKE', '%'. $request->keyword .'%');
+            return $query->where(function ($query) use ($request){
+                return $query->where('first_name', $request->keyword) 
+                ->orWhere('last_name', $request->keyword)
+                ->orWhere('email', $request->keyword)
+                ->orWhere('phone', $request->keyword);
+            });
         })
-        ->with('company')->paginate(10);
+        ->when($request->companyName, function ($query) use ($request){
+            return $query->whereHas('company', function ($query) use ($request){
+                return $query->where('name', $request->companyName);
+            });
+        })
+        ->when($request->projectName, function ($query) use ($request){
+            return $query->whereHas('projects', function ($query) use ($request){
+                return $query->where('name', $request->projectName);
+            });
+        })
+        ->when($request->projectCount, function ($query) use ($request){
+            return $query->has('projects', '>=', $request->projectCount);
+        })
+        ->with('company', 'projects')->paginate(10);
 
-        return response()->json(['success' => 'true', 'data' => (new EmployeeTransformer())->transform($employees), 'message' => 'Employees retrieved successfully']);
+        return response()->json(['success' => true, 'data' => (new EmployeeTransformer())->transform($employees), 'message' => 'Data retrieved successfully'], 200);
     }
 
     /**
@@ -74,5 +91,5 @@ class EmployeeController extends Controller
     {
         //
     }
-    
+
 }
